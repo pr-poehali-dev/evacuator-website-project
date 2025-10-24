@@ -3,10 +3,34 @@ import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
 
 const Index = () => {
+  const [galleryImages, setGalleryImages] = useState<string[]>([
+    "https://cdn.poehali.dev/projects/bfc76e09-7f04-4cea-bfa0-929c241f31d1/files/2a2de732-dc0a-4e1e-8204-00c4d254142f.jpg",
+    "https://cdn.poehali.dev/projects/bfc76e09-7f04-4cea-bfa0-929c241f31d1/files/34255767-edea-4334-aae8-038bd24a8591.jpg",
+    "https://cdn.poehali.dev/projects/bfc76e09-7f04-4cea-bfa0-929c241f31d1/files/9b58e97a-b7ae-4571-a2b1-fb4ed23fd6d3.jpg"
+  ]);
+
   const handleCallClick = () => {
     window.location.href = "tel:+79515000566";
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setGalleryImages(prev => [...prev, reader.result as string]);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setGalleryImages(prev => prev.filter((_, i) => i !== index));
   };
 
   const services = [
@@ -128,6 +152,68 @@ const Index = () => {
                 className="w-full h-80 object-cover"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="font-heading font-black text-4xl lg:text-5xl text-foreground mb-4">
+              Наш автопарк
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Современная техника для безопасной эвакуации
+            </p>
+          </div>
+          
+          <div className="max-w-6xl mx-auto mb-12">
+            <Card className="border-2 border-dashed border-primary/30 hover:border-primary transition-colors">
+              <CardContent className="p-8">
+                <label htmlFor="file-upload" className="cursor-pointer block">
+                  <div className="text-center space-y-4">
+                    <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
+                      <Icon name="Upload" className="text-primary" size={32} />
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-foreground mb-2">
+                        Загрузите фотографии вашего эвакуатора
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Нажмите или перетащите изображения сюда
+                      </p>
+                    </div>
+                  </div>
+                  <input
+                    id="file-upload"
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                  />
+                </label>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {galleryImages.map((image, index) => (
+              <div key={index} className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+                <img 
+                  src={image}
+                  alt={`Эвакуатор фото ${index + 1}`}
+                  className="w-full h-80 object-cover"
+                />
+                <button
+                  onClick={() => removeImage(index)}
+                  className="absolute top-4 right-4 w-10 h-10 bg-destructive/90 hover:bg-destructive rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <Icon name="X" className="text-white" size={20} />
+                </button>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+            ))}
           </div>
         </div>
       </section>
