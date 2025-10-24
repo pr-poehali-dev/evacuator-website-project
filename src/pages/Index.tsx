@@ -7,9 +7,11 @@ import { useState } from "react";
 
 const Index = () => {
   const [galleryImages, setGalleryImages] = useState<string[]>([
-    "https://cdn.poehali.dev/projects/bfc76e09-7f04-4cea-bfa0-929c241f31d1/files/2a2de732-dc0a-4e1e-8204-00c4d254142f.jpg",
-    "https://cdn.poehali.dev/projects/bfc76e09-7f04-4cea-bfa0-929c241f31d1/files/34255767-edea-4334-aae8-038bd24a8591.jpg",
-    "https://cdn.poehali.dev/projects/bfc76e09-7f04-4cea-bfa0-929c241f31d1/files/9b58e97a-b7ae-4571-a2b1-fb4ed23fd6d3.jpg"
+    "https://cdn.poehali.dev/files/b3296223-f463-4622-a09e-62e99246ec35.jpeg",
+    "https://cdn.poehali.dev/files/ab10d144-ab7d-44d9-afbe-0888e06140b5.jpeg",
+    "https://cdn.poehali.dev/files/064d06be-9753-44e7-a292-7b47d1af50a1.jpeg",
+    "https://cdn.poehali.dev/files/4a917755-822c-4b25-b46f-f114594e3b3e.jpeg",
+    "https://cdn.poehali.dev/files/2f51a15b-ad45-4e12-8eab-1813b990bc69.jpeg"
   ]);
 
   const handleCallClick = () => {
